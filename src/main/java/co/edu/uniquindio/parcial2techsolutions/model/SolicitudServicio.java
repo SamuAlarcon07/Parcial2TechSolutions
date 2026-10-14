@@ -1,5 +1,6 @@
 package co.edu.uniquindio.parcial2techsolutions.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,10 +15,12 @@ public class SolicitudServicio {
     private final LocalDate fechaSolicitud;
     private final Cliente cliente;
     private final List<ElementoTecnologico> elementos;
+
     private LocalDate fechaProgramada;
     private String observaciones;
     private Prioridad prioridad;
     private EstadoSolicitud estado;
+    private BigDecimal costoTotal;
 
     public SolicitudServicio(
             String codigo,
@@ -53,6 +56,11 @@ public class SolicitudServicio {
                     "La solicitud no puede contener elementos nulos.");
         }
 
+        if (prioridad == null) {
+            throw new IllegalArgumentException(
+                    "La prioridad es obligatoria.");
+        }
+
         this.codigo = codigo;
         this.fechaSolicitud = fechaSolicitud;
         this.cliente = cliente;
@@ -61,6 +69,7 @@ public class SolicitudServicio {
         this.observaciones = observaciones;
         this.prioridad = prioridad;
         this.estado = EstadoSolicitud.PENDIENTE;
+        this.costoTotal = BigDecimal.ZERO;
     }
 
     public String getCodigo() {
@@ -95,6 +104,52 @@ public class SolicitudServicio {
         return estado;
     }
 
+    public BigDecimal getCostoTotal() {
+        return costoTotal;
+    }
+
+    /**
+     * Indica si algún elemento requiere atención a domicilio.
+     */
+    public boolean requiereAtencionDomicilio() {
+
+        for (ElementoTecnologico elemento : elementos) {
+
+            if (elemento instanceof ServicioDecorador) {
+                ServicioDecorador decorador =
+                        (ServicioDecorador) elemento;
+
+                if (decorador.contieneAtencionDomicilio()) {
+                    return true;
+                }
+            }
+
+            if (elemento instanceof PaqueteTecnologico) {
+                PaqueteTecnologico paquete =
+                        (PaqueteTecnologico) elemento;
+
+                if (paquete.contieneAtencionDomicilio()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Guarda el costo final calculado para la solicitud.
+     */
+    public void establecerCostoTotal(BigDecimal costoTotal) {
+
+        if (costoTotal == null || costoTotal.compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException(
+                    "El costo total no puede ser nulo ni negativo.");
+        }
+
+        this.costoTotal = costoTotal;
+    }
+
     public void programarFecha(LocalDate fechaProgramada) {
         this.fechaProgramada = fechaProgramada;
     }
@@ -104,6 +159,7 @@ public class SolicitudServicio {
     }
 
     public void cambiarPrioridad(Prioridad prioridad) {
+
         if (prioridad == null) {
             throw new IllegalArgumentException(
                     "La prioridad no puede ser nula.");
@@ -113,6 +169,7 @@ public class SolicitudServicio {
     }
 
     public void cambiarEstado(EstadoSolicitud estado) {
+
         if (estado == null) {
             throw new IllegalArgumentException(
                     "El estado no puede ser nulo.");
