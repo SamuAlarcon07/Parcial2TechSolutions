@@ -15,7 +15,7 @@ public class TechSolutions {
      * @param nombre nombre de la empresa
      */
     public TechSolutions(String nombre) {
-        if (nombre == null || nombre.isBlank()) {
+        if (nombre == null || nombre.isEmpty()) {
             throw new IllegalArgumentException(
                     "El nombre de la empresa es obligatorio."
             );
