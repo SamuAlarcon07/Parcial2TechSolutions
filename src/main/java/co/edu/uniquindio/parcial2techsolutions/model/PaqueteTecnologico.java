@@ -52,8 +52,7 @@ public class PaqueteTecnologico implements ElementoTecnologico {
             );
         }
 
-        if (elemento instanceof PaqueteTecnologico
-                && ((PaqueteTecnologico) elemento).contienePaquete(this)) {
+        if (contieneEstePaquete(elemento)) {
             throw new IllegalArgumentException(
                     "La operación produciría un ciclo entre paquetes."
             );
@@ -63,8 +62,35 @@ public class PaqueteTecnologico implements ElementoTecnologico {
     }
 
     /**
+     * Comprueba si agregar el elemento provocaría un ciclo.
+     * También revisa paquetes envueltos en decoradores.
+     */
+    private boolean contieneEstePaquete(ElementoTecnologico elemento) {
+
+        if (elemento == this) {
+            return true;
+        }
+
+        if (elemento instanceof PaqueteTecnologico) {
+            return ((PaqueteTecnologico) elemento)
+                    .contienePaquete(this);
+        }
+
+        if (elemento instanceof ServicioDecorador) {
+            ServicioDecorador decorador =
+                    (ServicioDecorador) elemento;
+
+            return contieneEstePaquete(
+                    decorador.getElementoDecorado()
+            );
+        }
+
+        return false;
+    }
+
+    /**
      * Comprueba recursivamente si este paquete contiene
-     * el paquete indicado.
+     * el paquete indicado, incluso dentro de decoradores.
      */
     private boolean contienePaquete(PaqueteTecnologico objetivo) {
 
@@ -74,10 +100,11 @@ public class PaqueteTecnologico implements ElementoTecnologico {
                 return true;
             }
 
-            if (elemento instanceof PaqueteTecnologico
-                    && ((PaqueteTecnologico) elemento)
-                    .contienePaquete(objetivo)) {
-                return true;
+            if (elemento instanceof PaqueteTecnologico) {
+                if (((PaqueteTecnologico) elemento)
+                        .contienePaquete(objetivo)) {
+                    return true;
+                }
             }
 
             if (elemento instanceof ServicioDecorador) {
