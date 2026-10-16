@@ -1,9 +1,10 @@
-
 package co.edu.uniquindio.parcial2techsolutions.controller;
 
 import co.edu.uniquindio.parcial2techsolutions.model.EstadoSolicitud;
 import co.edu.uniquindio.parcial2techsolutions.model.RespuestaTecnico;
 import co.edu.uniquindio.parcial2techsolutions.model.SolicitudServicio;
+import co.edu.uniquindio.parcial2techsolutions.model.ElementoTecnologico;
+import co.edu.uniquindio.parcial2techsolutions.model.PaqueteTecnologico;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -11,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Gestiona el registro, la consulta y la confirmación
- * de solicitudes de servicio.
+ * Gestiona el registro, la consulta, la cancelación
+ * y la confirmación de solicitudes de servicio.
  */
 public class GestionSolicitudesService {
 
@@ -22,6 +23,10 @@ public class GestionSolicitudesService {
         this.solicitudes = new ArrayList<>();
     }
 
+    /**
+     * Registra una solicitud si sus datos son válidos
+     * y su código no está repetido.
+     */
     public void registrarSolicitud(SolicitudServicio solicitud) {
 
         if (solicitud == null) {
@@ -37,6 +42,9 @@ public class GestionSolicitudesService {
         solicitudes.add(solicitud);
     }
 
+    /**
+     * Busca una solicitud mediante su código.
+     */
     public SolicitudServicio buscarPorCodigo(String codigo) {
 
         if (codigo == null || codigo.trim().isEmpty()) {
@@ -52,10 +60,16 @@ public class GestionSolicitudesService {
         return null;
     }
 
+    /**
+     * Devuelve una vista no modificable de las solicitudes.
+     */
     public List<SolicitudServicio> listarSolicitudes() {
         return Collections.unmodifiableList(solicitudes);
     }
 
+    /**
+     * Cancela una solicitud existente.
+     */
     public void cancelarSolicitud(String codigo) {
 
         SolicitudServicio solicitud = buscarPorCodigo(codigo);
@@ -74,9 +88,11 @@ public class GestionSolicitudesService {
     }
 
     /**
-     * Confirma la solicitud y guarda su costo total.
-     * Si requiere atención a domicilio, consulta primero
-     * la disponibilidad del técnico.
+     * Confirma una solicitud y registra su costo final.
+     *
+     * Si requiere atención a domicilio, consulta la disponibilidad
+     * del técnico para la especialidad del primer servicio
+     * incluido en la solicitud.
      */
     public void confirmarSolicitud(
             String codigo,
@@ -115,8 +131,10 @@ public class GestionSolicitudesService {
                                 + "para la atención a domicilio.");
             }
 
+            String especialidad = obtenerEspecialidad(solicitud);
+
             respuestaTecnico =
-                    consultaTecnicoService.consultarTecnico();
+                    consultaTecnicoService.consultarTecnico(especialidad);
 
             if (respuestaTecnico == null
                     || !respuestaTecnico.isDisponible()) {
@@ -134,5 +152,31 @@ public class GestionSolicitudesService {
 
         solicitud.establecerCostoTotal(costoFinal);
         solicitud.cambiarEstado(EstadoSolicitud.CONFIRMADA);
+    }
+
+    /**
+     * Obtiene el nombre del primer servicio real de la solicitud.
+     * Si el elemento es un paquete, busca el primer servicio incluido.
+     */
+    private String obtenerEspecialidad(SolicitudServicio solicitud) {
+
+        for (ElementoTecnologico elemento : solicitud.getElementos()) {
+
+            if (elemento instanceof PaqueteTecnologico paquete) {
+
+                for (ElementoTecnologico incluido : paquete.getElementos()) {
+                    return incluido.getNombre();
+                }
+
+            } else if (elemento.getNombre() != null
+                    && !elemento.getNombre().isBlank()) {
+
+                return elemento.getNombre();
+            }
+        }
+
+        throw new IllegalStateException(
+                "No se encontró un servicio para determinar "
+                        + "la especialidad del técnico.");
     }
 }

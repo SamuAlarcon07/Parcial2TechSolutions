@@ -1,9 +1,12 @@
+
 package co.edu.uniquindio.parcial2techsolutions.model;
 
 /**
- * Define la operación de consulta al sistema externo de técnicos.
+ * Define el contrato del sistema externo LegacySupport.
+ * Recibe un código numérico de especialidad y devuelve
+ * la información del técnico en formato de texto.
  */
 public interface LegacySupport {
 
-    String consultarTecnico();
+    String consultarTecnico(int codigoEspecialidad);
 }
