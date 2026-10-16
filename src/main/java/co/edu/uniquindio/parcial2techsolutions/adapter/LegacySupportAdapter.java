@@ -1,11 +1,14 @@
+
 package co.edu.uniquindio.parcial2techsolutions.adapter;
 
 import co.edu.uniquindio.parcial2techsolutions.model.LegacySupport;
 import co.edu.uniquindio.parcial2techsolutions.model.RespuestaTecnico;
 
+import java.util.Locale;
+
 /**
- * Convierte la respuesta textual de LegacySupport
- * en un objeto que puede utilizar TechSolutions.
+ * Adapta la interfaz de LegacySupport a las necesidades
+ * de consulta de técnicos de TechSolutions.
  */
 public class LegacySupportAdapter {
 
@@ -20,9 +23,15 @@ public class LegacySupportAdapter {
         this.legacySupport = legacySupport;
     }
 
-    public RespuestaTecnico consultarTecnico() {
+    /**
+     * Convierte el nombre de la especialidad en un código numérico,
+     * consulta el sistema externo y estructura su respuesta.
+     */
+    public RespuestaTecnico consultarTecnico(String especialidad) {
 
-        String respuesta = legacySupport.consultarTecnico();
+        int codigoEspecialidad = obtenerCodigoEspecialidad(especialidad);
+
+        String respuesta = legacySupport.consultarTecnico(codigoEspecialidad);
 
         if (respuesta == null || respuesta.trim().isEmpty()) {
             throw new IllegalArgumentException(
@@ -63,5 +72,39 @@ public class LegacySupportAdapter {
                 disponible,
                 costoDesplazamiento
         );
+    }
+
+    /**
+     * Traduce los nombres utilizados por TechSolutions
+     * a códigos numéricos para el proveedor externo.
+     */
+    private int obtenerCodigoEspecialidad(String especialidad) {
+
+        if (especialidad == null || especialidad.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Debes indicar una especialidad.");
+        }
+
+        String nombre = especialidad.trim().toLowerCase(Locale.ROOT);
+
+        return switch (nombre) {
+            case "mantenimiento de equipos",
+                 "mantenimiento preventivo",
+                 "mantenimiento correctivo" -> 1;
+
+            case "redes y conectividad",
+                 "instalación de redes",
+                 "instalacion de redes" -> 2;
+
+            case "recuperación de información",
+                 "recuperacion de informacion" -> 3;
+
+            case "instalación de software",
+                 "instalacion de software" -> 4;
+
+            default -> throw new IllegalArgumentException(
+                    "No existe un código para la especialidad: "
+                            + especialidad);
+        };
     }
 }

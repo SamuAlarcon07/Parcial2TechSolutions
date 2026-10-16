@@ -108,34 +108,36 @@ public class SolicitudServicio {
         return costoTotal;
     }
 
+
     /**
-     * Indica si algún elemento requiere atención a domicilio.
+     * Indica si la solicitud requiere atención a domicilio.
+     * Revisa tanto los decoradores y paquetes como el complemento
+     * registrado en las observaciones del formulario.
      */
     public boolean requiereAtencionDomicilio() {
 
         for (ElementoTecnologico elemento : elementos) {
 
-            if (elemento instanceof ServicioDecorador) {
-                ServicioDecorador decorador =
-                        (ServicioDecorador) elemento;
-
-                if (decorador.contieneAtencionDomicilio()) {
-                    return true;
-                }
+            if (elemento instanceof ServicioDecorador decorador
+                    && decorador.contieneAtencionDomicilio()) {
+                return true;
             }
 
-            if (elemento instanceof PaqueteTecnologico) {
-                PaqueteTecnologico paquete =
-                        (PaqueteTecnologico) elemento;
-
-                if (paquete.contieneAtencionDomicilio()) {
-                    return true;
-                }
+            if (elemento instanceof PaqueteTecnologico paquete
+                    && paquete.contieneAtencionDomicilio()) {
+                return true;
             }
         }
 
-        return false;
+        // El formulario actual guarda este complemento en las observaciones.
+        String texto = observaciones == null
+                ? ""
+                : observaciones.toLowerCase(java.util.Locale.ROOT);
+
+        return texto.contains("atención a domicilio")
+                || texto.contains("atencion a domicilio");
     }
+
 
     /**
      * Guarda el costo final calculado para la solicitud.

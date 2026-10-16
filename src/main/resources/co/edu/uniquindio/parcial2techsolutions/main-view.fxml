@@ -1,0 +1,1190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Priority?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.SVGPath?>
+
+<VBox fx:id="contenedorPrincipal"
+      xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="co.edu.uniquindio.parcial2techsolutions.viewController.PrincipalViewController"
+      prefWidth="1200"
+      prefHeight="800"
+      styleClass="app-root"
+      spacing="0"
+      style="-fx-background-color: linear-gradient(to bottom right, #F8F5FF, #EEF0FA, #EAEFFF);">
+
+    <!-- ENCABEZADO PRINCIPAL -->
+    <VBox styleClass="main-header">
+        <padding>
+            <Insets top="16" right="28" bottom="12" left="28"/>
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="14">
+            <ImageView fx:id="logoPrincipal"
+                       fitWidth="48.0"
+                       fitHeight="48.0"
+                       preserveRatio="true"
+                       smooth="true"
+                       onMouseClicked="#volverAInicio">
+                <image>
+                    <Image url="@images/logo.png"/>
+                </image>
+            </ImageView>
+
+            <VBox spacing="2">
+                <Label text="TechSolutions" styleClass="brand-name"/>
+                <Label text="Gestión de servicios tecnológicos"
+                       styleClass="brand-subtitle"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <!-- RELOJ Y FECHA -->
+            <VBox alignment="CENTER_RIGHT"
+                  spacing="3"
+                  style="-fx-padding: 0 18 0 0;">
+                <Label fx:id="horaLabel"
+                       text="00:00:00"
+                       style="-fx-font-size: 18px;
+                              -fx-font-weight: bold;
+                              -fx-text-fill: #32166f;"/>
+
+                <Label fx:id="fechaLabel"
+                       text="Cargando fecha..."
+                       style="-fx-font-size: 11px;
+                              -fx-text-fill: #8577a4;"/>
+            </VBox>
+
+            <!-- ICONO DE PERFIL DE USUARIO -->
+            <SVGPath content="M12 12 A4 4 0 1 0 12 4 A4 4 0 0 0 12 12 M4 21 C4 16 7 14 12 14 C17 14 20 16 20 21"
+                     fill="TRANSPARENT"
+                     stroke="#7028e4"
+                     strokeWidth="1.6"
+                     scaleX="0.85"
+                     scaleY="0.85"/>
+            <Label text="Administrador"
+                   styleClass="administrator-label"/>
+        </HBox>
+    </VBox>
+
+    <!-- NAVEGACIÓN PRINCIPAL -->
+    <TabPane fx:id="tabPrincipal"
+             VBox.vgrow="ALWAYS"
+             tabClosingPolicy="UNAVAILABLE"
+             styleClass="main-tabs">
+
+        <tabs>
+
+            <!-- ==================== INICIO ==================== -->
+            <Tab>
+                <graphic>
+                    <HBox alignment="CENTER"
+                          spacing="7"
+                          onMouseEntered="#animarHoverEntrada"
+                          onMouseExited="#animarHoverSalida">
+                        <SVGPath content="M3 10 L12 3 L21 10 M5 9 V21 H19 V9 M9 21 V14 H15 V21"
+                                 fill="TRANSPARENT"
+                                 stroke="#7028e4"
+                                 strokeWidth="1.7"/>
+                        <Label text="Inicio"/>
+                    </HBox>
+                </graphic>
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            style="-fx-background-color: transparent; -fx-background: transparent; -fx-border-color: transparent;">
+                    <content>
+                        <VBox spacing="24" styleClass="page-content">
+                            <padding>
+                                <Insets top="28" right="30"
+                                        bottom="32" left="30"/>
+                            </padding>
+
+                            <!-- BANNER DE BIENVENIDA -->
+                            <StackPane fx:id="contenedorBanner"
+                                       minHeight="200"
+                                       prefHeight="200"
+                                       maxHeight="200">
+                                <HBox alignment="CENTER_LEFT" spacing="20">
+                                    <padding>
+                                        <Insets top="28" right="32"
+                                                bottom="28" left="32"/>
+                                    </padding>
+
+                                    <VBox styleClass="banner-animado"
+                                          spacing="12" HBox.hgrow="ALWAYS">
+                                        <Label text="PANEL DE ADMINISTRACIÓN"
+                                               style="-fx-text-fill: #e6d7ff;
+                                                      -fx-font-size: 11px;
+                                                      -fx-font-weight: bold;"/>
+
+                                        <Label text="¡Bienvenido a TechSolutions!"
+                                               wrapText="true"
+                                               style="-fx-text-fill: white;
+                                                      -fx-font-size: 27px;
+                                                      -fx-font-weight: bold;"/>
+
+                                        <Label text="Gestiona tus servicios tecnológicos de forma sencilla y organizada."
+                                               wrapText="true"
+                                               maxWidth="480"
+                                               style="-fx-text-fill: #f1eaff;
+                                                      -fx-font-size: 13px;"/>
+
+                                        <HBox spacing="12">
+                                            <Button text="+  Nueva solicitud"
+                                                    onAction="#nuevaSolicitud"
+                                                    style="-fx-background-color: white;
+                                                           -fx-text-fill: #6020c9;
+                                                           -fx-font-weight: bold;
+                                                           -fx-background-radius: 9;
+                                                           -fx-padding: 12 18;
+                                                           -fx-cursor: hand;"/>
+
+                                            <Button text="Ver servicios  →"
+                                                    onAction="#abrirServicios"
+                                                    style="-fx-background-color: rgba(255,255,255,0.16);
+                                                           -fx-text-fill: white;
+                                                           -fx-font-weight: bold;
+                                                           -fx-background-radius: 9;
+                                                           -fx-border-color: rgba(255,255,255,0.55);
+                                                           -fx-border-radius: 9;
+                                                           -fx-padding: 12 18;
+                                                           -fx-cursor: hand;"/>
+                                        </HBox>
+                                    </VBox>
+
+                            <!-- ILUSTRACIÓN DE CONEXIONES TECNOLÓGICAS -->
+                            <StackPane minWidth="150"
+                                       prefWidth="150"
+                                       maxWidth="150"
+                                       minHeight="125"
+                                       prefHeight="125"
+                                       maxHeight="125"
+                                       style="-fx-background-color: rgba(255,255,255,0.13);
+                  -fx-background-radius: 28;">
+
+                                <VBox alignment="CENTER" spacing="8">
+
+                                    <!-- Símbolo de conexiones -->
+                                    <Group>
+                                        <!-- Líneas que conectan los nodos -->
+                                        <Line startX="0" startY="0"
+                                              endX="25" endY="-25"
+                                              stroke="white"
+                                              strokeWidth="2.5"/>
+
+                                        <Line startX="25" startY="-25"
+                                              endX="50" endY="0"
+                                              stroke="white"
+                                              strokeWidth="2.5"/>
+
+                                        <Line startX="50" startY="0"
+                                              endX="25" endY="25"
+                                              stroke="white"
+                                              strokeWidth="2.5"/>
+
+                                        <Line startX="25" startY="25"
+                                              endX="0" endY="0"
+                                              stroke="white"
+                                              strokeWidth="2.5"/>
+
+                                        <Line startX="25" startY="-25"
+                                              endX="25" endY="25"
+                                              stroke="white"
+                                              strokeWidth="2.5"/>
+
+                                        <!-- Nodos de conexión -->
+                                        <Circle centerX="0" centerY="0" radius="6"
+                                                fill="#7028e4"
+                                                stroke="white"
+                                                strokeWidth="2"/>
+
+                                        <Circle centerX="25" centerY="-25" radius="6"
+                                                fill="#7028e4"
+                                                stroke="white"
+                                                strokeWidth="2"/>
+
+                                        <Circle centerX="50" centerY="0" radius="6"
+                                                fill="#7028e4"
+                                                stroke="white"
+                                                strokeWidth="2"/>
+
+                                        <Circle centerX="25" centerY="25" radius="6"
+                                                fill="#7028e4"
+                                                stroke="white"
+                                                strokeWidth="2"/>
+                                    </Group>
+
+                                    <Label text="CONECTAMOS SOLUCIONES"
+                                           style="-fx-text-fill: #eee3ff;
+                      -fx-font-size: 8px;
+                      -fx-font-weight: bold;"/>
+                                </VBox>
+                            </StackPane>
+                                </HBox>
+                            </StackPane>
+
+                            <!-- TÍTULO DE ESTADÍSTICAS -->
+                            <VBox spacing="5">
+                                <Label text="Resumen general"
+                                       style="-fx-text-fill: #241344;
+                                              -fx-font-size: 20px;
+                                              -fx-font-weight: bold;"/>
+                                <Label text="Una vista rápida de los recursos de tu empresa."
+                                       styleClass="page-subtitle"/>
+                            </VBox>
+
+                            <!-- TARJETAS DE ESTADÍSTICAS -->
+                            <HBox spacing="18">
+
+                                <!-- SERVICIOS -->
+                                <VBox spacing="14"
+                                      HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: white;
+                                             -fx-background-radius: 16;
+                                             -fx-border-color: #e9e2f4;
+                                             -fx-border-radius: 16;
+                                             -fx-padding: 20;">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="Servicios disponibles"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 12px;"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label text="⚙"
+                                               style="-fx-text-fill: #7028e4;
+                                                      -fx-font-size: 23px;"/>
+                                    </HBox>
+
+                                    <Label fx:id="textoServiciosDisponibles"
+                                           text="4"
+                                           style="-fx-text-fill: #32116f;
+                                                  -fx-font-size: 34px;
+                                                  -fx-font-weight: bold;"/>
+
+                                    <Label text="Servicios en el catálogo"
+                                           style="-fx-text-fill: #8a7da0;
+                                                  -fx-font-size: 11px;"/>
+                                </VBox>
+
+                                <!-- PAQUETES -->
+                                <VBox spacing="14"
+                                      HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: white;
+                                             -fx-background-radius: 16;
+                                             -fx-border-color: #e9e2f4;
+                                             -fx-border-radius: 16;
+                                             -fx-padding: 20;">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="Paquetes creados"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 12px;"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label text="◇"
+                                               style="-fx-text-fill: #168b85;
+                                                      -fx-font-size: 25px;"/>
+                                    </HBox>
+
+                                    <Label fx:id="textoPaquetesCreados"
+                                           text="0"
+                                           style="-fx-text-fill: #32116f;
+                                                  -fx-font-size: 34px;
+                                                  -fx-font-weight: bold;"/>
+
+                                    <Label text="Soluciones personalizadas"
+                                           style="-fx-text-fill: #8a7da0;
+                                                  -fx-font-size: 11px;"/>
+                                </VBox>
+
+                                <!-- SOLICITUDES -->
+                                <VBox spacing="14"
+                                      HBox.hgrow="ALWAYS"
+                                      style="-fx-background-color: white;
+                                             -fx-background-radius: 16;
+                                             -fx-border-color: #e9e2f4;
+                                             -fx-border-radius: 16;
+                                             -fx-padding: 20;">
+                                    <HBox alignment="CENTER_LEFT">
+                                        <Label text="Solicitudes registradas"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 12px;"/>
+                                        <Region HBox.hgrow="ALWAYS"/>
+                                        <Label text="▤"
+                                               style="-fx-text-fill: #e59b24;
+                                                      -fx-font-size: 23px;"/>
+                                    </HBox>
+
+                                    <Label fx:id="textoSolicitudesRegistradas"
+                                           text="0"
+                                           style="-fx-text-fill: #32116f;
+                                                  -fx-font-size: 34px;
+                                                  -fx-font-weight: bold;"/>
+
+                                    <Label text="Solicitudes de clientes"
+                                           style="-fx-text-fill: #8a7da0;
+                                                  -fx-font-size: 11px;"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- ACCESOS RÁPIDOS -->
+                            <VBox spacing="14"
+                                  style="-fx-background-color: white;
+                                         -fx-background-radius: 16;
+                                         -fx-border-color: #e9e2f4;
+                                         -fx-border-radius: 16;
+                                         -fx-padding: 22;">
+                                <VBox spacing="5">
+                                    <Label text="Accesos rápidos"
+                                           style="-fx-text-fill: #241344;
+                                                  -fx-font-size: 18px;
+                                                  -fx-font-weight: bold;"/>
+                                    <Label text="Accede directamente a las funciones principales."
+                                           styleClass="page-subtitle"/>
+                                </VBox>
+
+                                <HBox spacing="14">
+                                    <VBox spacing="10"
+                                          alignment="CENTER_LEFT"
+                                          HBox.hgrow="ALWAYS"
+                                          style="-fx-background-color: #f8f4ff;
+                                                 -fx-background-radius: 12;
+                                                 -fx-padding: 18;">
+                                        <Label text="＋"
+                                               style="-fx-text-fill: #7028e4;
+                                                      -fx-font-size: 27px;
+                                                      -fx-font-weight: bold;"/>
+                                        <Label text="Nueva solicitud"
+                                               style="-fx-text-fill: #32116f;
+                                                      -fx-font-size: 14px;
+                                                      -fx-font-weight: bold;"/>
+                                        <Label text="Registra un servicio para un cliente."
+                                               wrapText="true"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 11px;"/>
+                                        <Button text="Crear solicitud  →"
+                                                onAction="#nuevaSolicitud"
+                                                maxWidth="Infinity"
+                                                styleClass="primary-button"/>
+                                    </VBox>
+
+                                    <VBox spacing="10"
+                                          alignment="CENTER_LEFT"
+                                          HBox.hgrow="ALWAYS"
+                                          style="-fx-background-color: #f1fbf9;
+                                                 -fx-background-radius: 12;
+                                                 -fx-padding: 18;">
+                                        <Label text="⚒"
+                                               style="-fx-text-fill: #168b85;
+                                                      -fx-font-size: 27px;"/>
+                                        <Label text="Catálogo de servicios"
+                                               style="-fx-text-fill: #32116f;
+                                                      -fx-font-size: 14px;
+                                                      -fx-font-weight: bold;"/>
+                                        <Label text="Consulta las soluciones tecnológicas."
+                                               wrapText="true"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 11px;"/>
+                                        <Button text="Explorar servicios  →"
+                                                onAction="#abrirServicios"
+                                                maxWidth="Infinity"
+                                                styleClass="secondary-button"/>
+                                    </VBox>
+
+                                    <VBox spacing="10"
+                                          alignment="CENTER_LEFT"
+                                          HBox.hgrow="ALWAYS"
+                                          style="-fx-background-color: #fff8ed;
+                                                 -fx-background-radius: 12;
+                                                 -fx-padding: 18;">
+                                        <Label text="◇"
+                                               style="-fx-text-fill: #d58a18;
+                                                      -fx-font-size: 27px;"/>
+                                        <Label text="Paquetes tecnológicos"
+                                               style="-fx-text-fill: #32116f;
+                                                      -fx-font-size: 14px;
+                                                      -fx-font-weight: bold;"/>
+                                        <Label text="Combina servicios en una solución."
+                                               wrapText="true"
+                                               style="-fx-text-fill: #75688b;
+                                                      -fx-font-size: 11px;"/>
+                                        <Button text="Ver paquetes  →"
+                                                onAction="#abrirPaquetes"
+                                                maxWidth="Infinity"
+                                                styleClass="secondary-button"/>
+                                    </VBox>
+                                </HBox>
+                            </VBox>
+
+                            <!-- PIE INFORMATIVO -->
+                            <HBox alignment="CENTER_LEFT"
+                                  spacing="10"
+                                  style="-fx-background-color: #eee7fb;
+                                         -fx-background-radius: 12;
+                                         -fx-padding: 15 18;">
+                                <Label text="ⓘ"
+                                       style="-fx-text-fill: #7028e4;
+                                              -fx-font-size: 19px;"/>
+                                <Label text="TechSolutions · Administración de servicios tecnológicos"
+                                       wrapText="true"
+                                       style="-fx-text-fill: #625779;
+                                              -fx-font-size: 11px;"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </Tab>
+
+            <!-- ==================== SERVICIOS ==================== -->
+            <Tab fx:id="tabServicios">
+                <graphic>
+                    <HBox alignment="CENTER" spacing="7">
+                        <SVGPath content="M14.7 6.3 A5 5 0 0 0 8.3 12.7 L3 18 A2 2 0 0 0 6 21 L11.3 15.7 A5 5 0 0 0 17.7 9.3 L14 13 L11 10 Z"
+                                 fill="TRANSPARENT"
+                                 stroke="#7028e4"
+                                 strokeWidth="1.5"/>
+                        <Label text="Servicios"/>
+                    </HBox>
+                </graphic>
+                <VBox spacing="0" fillWidth="true">
+                    <ScrollPane fitToWidth="true"
+                                hbarPolicy="NEVER"
+                                vbarPolicy="AS_NEEDED"
+                                VBox.vgrow="ALWAYS"
+                                styleClass="services-scroll">
+                        <content>
+                            <VBox spacing="20" styleClass="page-content">
+                                <padding>
+                                    <Insets top="24" right="30"
+                                            bottom="24" left="30"/>
+                                </padding>
+
+                                <!-- ENCABEZADO -->
+                                <HBox alignment="CENTER_LEFT" spacing="20">
+                                    <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                        <Label text="CATÁLOGO"
+                                               styleClass="section-label"/>
+                                        <Label text="Servicios tecnológicos"
+                                               styleClass="page-title"/>
+                                        <Label text="Soluciones para el mantenimiento, instalación y recuperación de información."
+                                               styleClass="page-subtitle"/>
+                                    </VBox>
+
+                                    <TextField fx:id="campoBusqueda"
+                                               promptText="⌕  Buscar servicio..."
+                                               prefWidth="250"
+                                               styleClass="search-field"/>
+
+                                    <Button text="+  Nuevo servicio"
+                                            styleClass="primary-button"
+                                            onAction="#nuevoServicio"/>
+                                </HBox>
+
+                                <!-- TARJETAS DE SERVICIOS -->
+                                <FlowPane fx:id="contenedorServicios"
+                                          hgap="14"
+                                          vgap="18"
+                                          prefWrapLength="1600"
+                                          styleClass="services-grid">
+
+                                    <!-- SERVICIO 1 -->
+                                    <VBox spacing="10"
+                                          styleClass="service-card"
+                                          prefWidth="370"
+                                          minWidth="350"
+                                          prefHeight="570"
+                                          minHeight="570"
+                                          fillWidth="true"
+                                          style="-fx-background-color: white;
+                                                 -fx-background-radius: 16;
+                                                 -fx-border-color: #e9e2f4;
+                                                 -fx-border-radius: 16;
+                                                 -fx-padding: 10;
+                                                 -fx-effect: dropshadow(gaussian, rgba(40,20,80,0.10), 8, 0, 0, 3);">
+
+                                        <StackPane prefWidth="338"
+                                                   minWidth="318"
+                                                   prefHeight="155"
+                                                   minHeight="155"
+                                                   styleClass="service-image-container">
+                                            <ImageView fitWidth="338"
+                                                       fitHeight="155"
+                                                       preserveRatio="false"
+                                                       smooth="true"
+                                                       styleClass="service-photo">
+                                                <image>
+                                                    <Image url="@images/mantenimiento-preventivo.png"/>
+                                                </image>
+                                                <clip>
+                                                    <Rectangle width="338" height="155"
+                                                               arcWidth="16" arcHeight="16"/>
+                                                </clip>
+                                            </ImageView>
+                                            <Label text="⚒"
+                                                   styleClass="service-image-icon"
+                                                   StackPane.alignment="BOTTOM_LEFT">
+                                                <StackPane.margin>
+                                                    <Insets left="10" bottom="10"/>
+                                                </StackPane.margin>
+                                            </Label>
+                                        </StackPane>
+
+                                        <Label text="Mantenimiento preventivo"
+                                               styleClass="service-name"
+                                               wrapText="true"/>
+                                        <Label text="SER-001"
+                                               styleClass="service-code"/>
+                                        <Label text="Revisión y limpieza de equipos, optimización del rendimiento y prevención de fallas."
+                                               wrapText="true"
+                                               minHeight="54"
+                                               prefHeight="54"
+                                               styleClass="service-description"/>
+
+                                        <HBox minHeight="1" maxHeight="1"
+                                              style="-fx-background-color: #e9e2f4;"/>
+
+                                        <VBox spacing="12">
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Limpieza interna y externa"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Optimización del sistema"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-size: 12px;"/>
+                                                <Label text="Revisión de componentes"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <Region VBox.vgrow="ALWAYS"/>
+                                        <Label text="\$ 80.000"
+                                               styleClass="service-price"
+                                               minHeight="32"
+                                               prefHeight="32"/>
+                                        <Button text="Ver detalles       →"
+                                                maxWidth="Infinity"
+                                                minHeight="42"
+                                                prefHeight="42"
+                                                styleClass="secondary-button"
+                                                onAction="#verDetallesPreventivo"/>
+                                    </VBox>
+
+                                    <!-- SERVICIO 2 -->
+                                    <VBox spacing="10"
+                                          styleClass="service-card"
+                                          prefWidth="370"
+                                          minWidth="350"
+                                          prefHeight="570"
+                                          minHeight="570"
+                                          fillWidth="true"
+                                          style="-fx-background-color: white;
+                                                 -fx-background-radius: 16;
+                                                 -fx-border-color: #e9e2f4;
+                                                 -fx-border-radius: 16;
+                                                 -fx-padding: 10;
+                                                 -fx-effect: dropshadow(gaussian, rgba(40,20,80,0.10), 8, 0, 0, 3);">
+
+                                        <StackPane prefWidth="338"
+                                                   minWidth="318"
+                                                   prefHeight="155"
+                                                   minHeight="155"
+                                                   styleClass="service-image-container">
+                                            <ImageView fitWidth="338"
+                                                       fitHeight="155"
+                                                       preserveRatio="false"
+                                                       smooth="true"
+                                                       styleClass="service-photo">
+                                                <image>
+                                                    <Image url="@images/mantenimiento-correctivo.png"/>
+                                                </image>
+                                                <clip>
+                                                    <Rectangle width="338" height="155"
+                                                               arcWidth="16" arcHeight="16"/>
+                                                </clip>
+                                            </ImageView>
+                                            <Label text="⚙"
+                                                   styleClass="service-image-icon"
+                                                   StackPane.alignment="BOTTOM_LEFT">
+                                                <StackPane.margin>
+                                                    <Insets left="10" bottom="10"/>
+                                                </StackPane.margin>
+                                            </Label>
+                                        </StackPane>
+
+                                        <Label text="Mantenimiento correctivo"
+                                               styleClass="service-name"
+                                               wrapText="true"/>
+                                        <Label text="SER-002"
+                                               styleClass="service-code"/>
+                                        <Label text="Diagnóstico y reparación de fallas en equipos de cómputo."
+                                               wrapText="true"
+                                               minHeight="54"
+                                               prefHeight="54"
+                                               styleClass="service-description"/>
+
+                                        <HBox minHeight="1" maxHeight="1"
+                                              style="-fx-background-color: #e9e2f4;"/>
+
+                                        <VBox spacing="12">
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Diagnóstico técnico"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Reparación de hardware"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Pruebas de funcionamiento"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <Region VBox.vgrow="ALWAYS"/>
+                                        <Label text="\$ 120.000"
+                                               styleClass="service-price"
+                                               minHeight="32"
+                                               prefHeight="32"/>
+                                        <Button text="Ver detalles       →"
+                                                maxWidth="Infinity"
+                                                minHeight="42"
+                                                prefHeight="42"
+                                                styleClass="secondary-button"
+                                                onAction="#verDetallesCorrectivo"/>
+                                    </VBox>
+
+                                    <!-- SERVICIO 3 -->
+                                    <VBox spacing="10"
+                                          styleClass="service-card"
+                                          prefWidth="370"
+                                          minWidth="350"
+                                          prefHeight="570"
+                                          minHeight="570"
+                                          fillWidth="true"
+                                          style="-fx-background-color: white;
+                                                 -fx-background-radius: 16;
+                                                 -fx-border-color: #e9e2f4;
+                                                 -fx-border-radius: 16;
+                                                 -fx-padding: 10;
+                                                 -fx-effect: dropshadow(gaussian, rgba(40,20,80,0.10), 8, 0, 0, 3);">
+
+                                        <StackPane prefWidth="338"
+                                                   minWidth="318"
+                                                   prefHeight="155"
+                                                   minHeight="155"
+                                                   styleClass="service-image-container">
+                                            <ImageView fitWidth="338"
+                                                       fitHeight="155"
+                                                       preserveRatio="false"
+                                                       smooth="true"
+                                                       styleClass="service-photo">
+                                                <image>
+                                                    <Image url="@images/instalacion-redes.png"/>
+                                                </image>
+                                                <clip>
+                                                    <Rectangle width="338" height="155"
+                                                               arcWidth="16" arcHeight="16"/>
+                                                </clip>
+                                            </ImageView>
+                                            <Label text="⌘"
+                                                   styleClass="service-image-icon"
+                                                   StackPane.alignment="BOTTOM_LEFT">
+                                                <StackPane.margin>
+                                                    <Insets left="10" bottom="10"/>
+                                                </StackPane.margin>
+                                            </Label>
+                                        </StackPane>
+
+                                        <Label text="Instalación de redes"
+                                               styleClass="service-name"
+                                               wrapText="true"/>
+                                        <Label text="SER-003"
+                                               styleClass="service-code"/>
+                                        <Label text="Instalación y configuración de redes locales cableadas e inalámbricas."
+                                               wrapText="true"
+                                               minHeight="54"
+                                               prefHeight="54"
+                                               styleClass="service-description"/>
+
+                                        <HBox minHeight="1" maxHeight="1"
+                                              style="-fx-background-color: #e9e2f4;"/>
+
+                                        <VBox spacing="12">
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Diseño de red"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Configuración de equipos"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-size: 12px;"/>
+                                                <Label text="Pruebas de conectividad"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <Region VBox.vgrow="ALWAYS"/>
+                                        <Label text="\$ 180.000"
+                                               styleClass="service-price"
+                                               minHeight="32"
+                                               prefHeight="32"/>
+                                        <Button text="Ver detalles       →"
+                                                maxWidth="Infinity"
+                                                minHeight="42"
+                                                prefHeight="42"
+                                                styleClass="secondary-button"
+                                                onAction="#verDetallesRedes"/>
+                                    </VBox>
+
+                                    <!-- SERVICIO 4 -->
+                                    <VBox spacing="10"
+                                          styleClass="service-card"
+                                          prefWidth="370"
+                                          minWidth="350"
+                                          prefHeight="570"
+                                          minHeight="570"
+                                          fillWidth="true"
+                                          style="-fx-background-color: white;
+                                                 -fx-background-radius: 16;
+                                                 -fx-border-color: #e9e2f4;
+                                                 -fx-border-radius: 16;
+                                                 -fx-padding: 10;
+                                                 -fx-effect: dropshadow(gaussian, rgba(40,20,80,0.10), 8, 0, 0, 3);">
+
+                                        <StackPane prefWidth="338"
+                                                   minWidth="318"
+                                                   prefHeight="155"
+                                                   minHeight="155"
+                                                   styleClass="service-image-container">
+                                            <ImageView fitWidth="338"
+                                                       fitHeight="155"
+                                                       preserveRatio="false"
+                                                       smooth="true"
+                                                       styleClass="service-photo">
+                                                <image>
+                                                    <Image url="@images/recuperacion-informacion.png"/>
+                                                </image>
+                                                <clip>
+                                                    <Rectangle width="338" height="155"
+                                                               arcWidth="16" arcHeight="16"/>
+                                                </clip>
+                                            </ImageView>
+                                            <Label text="▤"
+                                                   styleClass="service-image-icon"
+                                                   StackPane.alignment="BOTTOM_LEFT">
+                                                <StackPane.margin>
+                                                    <Insets left="10" bottom="10"/>
+                                                </StackPane.margin>
+                                            </Label>
+                                        </StackPane>
+
+                                        <Label text="Recuperación de información"
+                                               styleClass="service-name"
+                                               wrapText="true"/>
+                                        <Label text="SER-004"
+                                               styleClass="service-code"/>
+                                        <Label text="Recuperación de datos en dispositivos de almacenamiento dañados o inaccesibles."
+                                               wrapText="true"
+                                               minHeight="54"
+                                               prefHeight="54"
+                                               styleClass="service-description"/>
+
+                                        <HBox minHeight="1" maxHeight="1"
+                                              style="-fx-background-color: #e9e2f4;"/>
+
+                                        <VBox spacing="12">
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Recuperación de datos"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Análisis del dispositivo"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                            <HBox alignment="CENTER_LEFT" spacing="8">
+                                                <Label text="✓"
+                                                       style="-fx-background-color: #eee5ff; -fx-background-radius: 20; -fx-text-fill: #7028e4; -fx-font-weight: bold; -fx-padding: 2 5;"/>
+                                                <Label text="Entrega segura de información"
+                                                       wrapText="true"
+                                                       style="-fx-text-fill: #625779; -fx-font-size: 12px;"/>
+                                            </HBox>
+                                        </VBox>
+
+                                        <Region VBox.vgrow="ALWAYS"/>
+                                        <Label text="\$ 150.000"
+                                               styleClass="service-price"
+                                               minHeight="32"
+                                               prefHeight="32"/>
+                                        <Button text="Ver detalles       →"
+                                                maxWidth="Infinity"
+                                                minHeight="42"
+                                                prefHeight="42"
+                                                styleClass="secondary-button"
+                                                onAction="#verDetallesInformacion"/>
+                                    </VBox>
+                                </FlowPane>
+                            </VBox>
+                        </content>
+                    </ScrollPane>
+
+                    <!-- FRANJA INFORMATIVA INFERIOR -->
+                    <HBox alignment="CENTER_LEFT"
+                          spacing="16"
+                          style="-fx-background-color: #f6f1ff;
+                                 -fx-border-color: #e3d7fa;
+                                 -fx-border-width: 1 0 0 0;
+                                 -fx-padding: 12 30;">
+
+                        <Label text="♧"
+                               style="-fx-text-fill: #7028e4;
+                                      -fx-font-size: 26px;"/>
+
+                        <HBox minWidth="1"
+                              maxWidth="1"
+                              minHeight="40"
+                              maxHeight="40"
+                              style="-fx-background-color: #c9b1f5;"/>
+
+                        <VBox spacing="4" HBox.hgrow="ALWAYS">
+                            <Label text="INFORMACIÓN IMPORTANTE"
+                                   style="-fx-text-fill: #625779;
+                                          -fx-font-size: 10px;
+                                          -fx-font-weight: bold;"/>
+                            <Label text="Los servicios pueden utilizarse individualmente o como parte de un paquete."
+                                   wrapText="true"
+                                   style="-fx-text-fill: #75688b;
+                                          -fx-font-size: 12px;"/>
+                        </VBox>
+
+                        <Button text="Crear paquete     →"
+                                styleClass="secondary-button"
+                                onAction="#abrirPaquetes"/>
+                    </HBox>
+                </VBox>
+            </Tab>
+
+            <!-- ==================== PAQUETES ==================== -->
+            <Tab fx:id="tabPaquetes">
+                <graphic>
+                    <HBox alignment="CENTER" spacing="7">
+                        <SVGPath content="M12 3 L21 8 L12 13 L3 8 Z M3 8 V18 L12 23 L21 18 V8 M12 13 V23"
+                                 fill="TRANSPARENT"
+                                 stroke="#7028e4"
+                                 strokeWidth="1.6"/>
+                        <Label text="Paquetes"/>
+                    </HBox>
+                </graphic>
+                <ScrollPane fitToWidth="true"
+                            fitToHeight="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED">
+                    <content>
+                        <VBox spacing="0"
+                              fillWidth="true"
+                              minHeight="600"
+                              styleClass="page-content">
+                            <padding>
+                                <Insets top="28" right="28"
+                                        bottom="28" left="28"/>
+                            </padding>
+
+                            <HBox alignment="CENTER_LEFT" spacing="16">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label text="Paquetes tecnológicos"
+                                           styleClass="page-title"/>
+                                    <Label text="Combina servicios y crea soluciones personalizadas."
+                                           wrapText="true"
+                                           styleClass="page-subtitle"/>
+                                </VBox>
+                                <Button text="＋ Crear paquete"
+                                        styleClass="primary-button"
+                                        onAction="#nuevoPaquete"/>
+                            </HBox>
+
+                            <Label text="Paquetes registrados"
+                                   styleClass="section-title">
+                                <VBox.margin>
+                                    <Insets top="18" bottom="12"/>
+                                </VBox.margin>
+                            </Label>
+
+                            <FlowPane fx:id="contenedorPaquetes"
+                                      hgap="16"
+                                      vgap="16"
+                                      prefWrapLength="1200"/>
+
+                            <Region minHeight="40"
+                                    VBox.vgrow="ALWAYS"/>
+
+                            <!-- BANNER INFERIOR -->
+                            <HBox alignment="CENTER_LEFT"
+                                  spacing="20"
+                                  minHeight="104"
+                                  prefHeight="104"
+                                  maxHeight="104"
+                                  style="-fx-background-color: linear-gradient(to right, #f2eaff, #faf7ff);
+                                         -fx-background-radius: 16;
+                                         -fx-border-color: #e3d5ff;
+                                         -fx-border-radius: 16;
+                                         -fx-border-width: 1;
+                                         -fx-padding: 18 26;">
+
+                                <StackPane minWidth="58"
+                                           prefWidth="58"
+                                           minHeight="58"
+                                           prefHeight="58"
+                                           style="-fx-background-color: #e5d7ff;
+                                                  -fx-background-radius: 15;">
+                                    <Label text="◇"
+                                           style="-fx-text-fill: #7028e4;
+                                                  -fx-font-size: 34px;
+                                                  -fx-font-weight: bold;"/>
+                                </StackPane>
+
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label text="¿Necesitas una solución personalizada?"
+                                           wrapText="true"
+                                           style="-fx-text-fill: #28134b;
+                                                  -fx-font-size: 17px;
+                                                  -fx-font-weight: bold;"/>
+                                    <Label text="Combina varios servicios tecnológicos y crea un paquete adaptado a tus necesidades."
+                                           wrapText="true"
+                                           style="-fx-text-fill: #75688b;
+                                                  -fx-font-size: 13px;"/>
+                                    <Label text="Mantenimiento · Redes · Recuperación de información"
+                                           wrapText="true"
+                                           style="-fx-text-fill: #7028e4;
+                                                  -fx-font-size: 11px;
+                                                  -fx-font-weight: bold;"/>
+                                </VBox>
+
+                                <Button text="Crear mi paquete   →"
+                                        onAction="#nuevoPaquete"
+                                        style="-fx-background-color: #7028e4;
+                                               -fx-text-fill: white;
+                                               -fx-font-size: 12px;
+                                               -fx-font-weight: bold;
+                                               -fx-background-radius: 10;
+                                               -fx-padding: 13 20;
+                                               -fx-cursor: hand;"/>
+                            </HBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </Tab>
+
+            <!-- ==================== SOLICITUDES ==================== -->
+            <Tab fx:id="tabSolicitudes">
+                <graphic>
+                    <HBox alignment="CENTER" spacing="7">
+                        <SVGPath content="M6 3 H15 L20 8 V21 H6 Z M15 3 V8 H20 M9 14 L11 16 L16 11"
+                                 fill="TRANSPARENT"
+                                 stroke="#7028e4"
+                                 strokeWidth="1.6"/>
+                        <Label text="Solicitudes"/>
+                    </HBox>
+                </graphic>
+                <ScrollPane fitToWidth="true"
+                            hbarPolicy="NEVER"
+                            vbarPolicy="AS_NEEDED"
+                            styleClass="services-scroll">
+                    <content>
+                        <VBox spacing="22" styleClass="page-content">
+                            <padding>
+                                <Insets top="28" right="28"
+                                        bottom="28" left="28"/>
+                            </padding>
+
+                            <HBox alignment="CENTER_LEFT" spacing="16">
+                                <VBox spacing="6" HBox.hgrow="ALWAYS">
+                                    <Label text="GESTIÓN DE SOLICITUDES"
+                                           styleClass="section-label"/>
+                                    <Label text="Solicitudes de servicio"
+                                           styleClass="page-title"/>
+                                    <Label text="Registra, consulta y administra las solicitudes de tus clientes."
+                                           wrapText="true"
+                                           styleClass="page-subtitle"/>
+                                </VBox>
+                                <Button text="+  Nueva solicitud"
+                                        styleClass="primary-button"
+                                        onAction="#nuevaSolicitud"/>
+                            </HBox>
+
+                            <!-- RESUMEN DE SOLICITUDES -->
+                            <HBox spacing="16">
+                                <VBox spacing="8"
+                                      styleClass="summary-card"
+                                      HBox.hgrow="ALWAYS">
+                                    <Label text="Total de solicitudes"
+                                           styleClass="summary-label"/>
+                                    <Label fx:id="textoTotalSolicitudes"
+                                           text="0"
+                                           styleClass="summary-number"/>
+                                </VBox>
+
+                                <VBox spacing="8"
+                                      styleClass="summary-card"
+                                      HBox.hgrow="ALWAYS">
+                                    <Label text="Pendientes"
+                                           styleClass="summary-label"/>
+                                    <Label fx:id="textoPendientes"
+                                           text="0"
+                                           styleClass="summary-number"/>
+                                </VBox>
+
+                                <VBox spacing="8"
+                                      styleClass="summary-card"
+                                      HBox.hgrow="ALWAYS">
+                                    <Label text="Confirmadas"
+                                           styleClass="summary-label"/>
+                                    <Label fx:id="textoConfirmadas"
+                                           text="0"
+                                           styleClass="summary-number"/>
+                                </VBox>
+
+                                <VBox spacing="8"
+                                      styleClass="summary-card"
+                                      HBox.hgrow="ALWAYS">
+                                    <Label text="Canceladas"
+                                           styleClass="summary-label"/>
+                                    <Label fx:id="textoCanceladas"
+                                           text="0"
+                                           styleClass="summary-number"/>
+                                </VBox>
+                            </HBox>
+
+                            <!-- TABLA DE SOLICITUDES -->
+                            <VBox spacing="16" styleClass="summary-card">
+                                <HBox alignment="CENTER_LEFT" spacing="14">
+                                    <VBox spacing="5" HBox.hgrow="ALWAYS">
+                                        <Label text="Solicitudes registradas"
+                                               styleClass="section-title"/>
+                                        <Label text="Consulta el cliente, el estado y el costo de cada solicitud."
+                                               wrapText="true"
+                                               styleClass="page-subtitle"/>
+                                    </VBox>
+                                    <TextField fx:id="campoBusquedaSolicitudes"
+                                               promptText="Buscar por código o cliente..."
+                                               prefWidth="270"
+                                               styleClass="search-field"/>
+                                </HBox>
+
+                                <TableView fx:id="tablaSolicitudes"
+                                           prefHeight="360">
+                                    <placeholder>
+                                        <VBox alignment="CENTER" spacing="10">
+                                            <Label text="▤"
+                                                   style="-fx-font-size: 32px;
+                                                          -fx-text-fill: #7028e4;"/>
+                                            <Label text="Todavía no hay solicitudes"
+                                                   style="-fx-font-size: 15px;
+                                                          -fx-font-weight: bold;
+                                                          -fx-text-fill: #32166f;"/>
+                                            <Label text="Registra una solicitud para que aparezca en este listado."
+                                                   wrapText="true"
+                                                   style="-fx-text-fill: #625779;"/>
+                                        </VBox>
+                                    </placeholder>
+
+                                    <columns>
+                                        <TableColumn fx:id="colCodigo"
+                                                     text="Código"
+                                                     prefWidth="100"/>
+                                        <TableColumn fx:id="colCliente"
+                                                     text="Cliente"
+                                                     prefWidth="180"/>
+                                        <TableColumn fx:id="colFecha"
+                                                     text="Fecha"
+                                                     prefWidth="110"/>
+                                        <TableColumn fx:id="colPrioridad"
+                                                     text="Prioridad"
+                                                     prefWidth="100"/>
+                                        <TableColumn fx:id="colEstado"
+                                                     text="Estado"
+                                                     prefWidth="110"/>
+                                        <TableColumn fx:id="colCosto"
+                                                     text="Costo total"
+                                                     prefWidth="130"/>
+                                    </columns>
+                                </TableView>
+
+                                <!-- ACCIONES -->
+                                <HBox alignment="CENTER_RIGHT" spacing="10">
+                                    <Label text="Selecciona una fila para gestionar la solicitud."
+                                           styleClass="page-subtitle"
+                                           HBox.hgrow="ALWAYS"/>
+                                    <Button text="Consultar técnico"
+                                            styleClass="secondary-button"
+                                            onAction="#consultarTecnicoDisponible"/>
+                                    <Button text="Ver detalles"
+                                            styleClass="secondary-button"
+                                            onAction="#verDetallesSolicitud"/>
+                                    <Button text="Confirmar solicitud"
+                                            styleClass="primary-button"
+                                            onAction="#confirmarSolicitudSeleccionada"/>
+                                    <Button text="Cancelar solicitud"
+                                            styleClass="secondary-button"
+                                            onAction="#cancelarSolicitudSeleccionada"/>
+                                </HBox>
+                            </VBox>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </Tab>
+        </tabs>
+    </TabPane>
+</VBox>
