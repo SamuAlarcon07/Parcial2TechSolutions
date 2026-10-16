@@ -532,21 +532,17 @@ public class PrincipalViewController {
                 continue;
             }
 
-            tarjeta.setMinWidth(300);
+
+            tarjeta.setMinWidth(ANCHO_MINIMO_TARJETA);
             tarjeta.setPrefWidth(anchoTarjeta);
             tarjeta.setMaxWidth(anchoTarjeta);
 
-            boolean tieneImagen = tarjeta.getChildren().stream()
-                    .anyMatch(elemento -> elemento instanceof StackPane);
+// No fijamos la altura: JavaFX debe calcularla
+// según el contenido de cada tarjeta.
+            tarjeta.setMinHeight(Region.USE_PREF_SIZE);
+            tarjeta.setPrefHeight(Region.USE_COMPUTED_SIZE);
+            tarjeta.setMaxHeight(Double.MAX_VALUE);
 
-            // Las tarjetas del FXML y las creadas desde Java deben medir lo mismo.
-            // Las originales tienen 300 px de alto; se aplica la misma medida
-            // a las tarjetas dinámicas.
-            if (tarjeta.getStyleClass().contains("service-card")) {
-                tarjeta.setMinHeight(300);
-                tarjeta.setPrefHeight(300);
-                tarjeta.setMaxHeight(300);
-            }
 
             double anchoImagen = Math.max(
                     180,
@@ -920,9 +916,6 @@ public class PrincipalViewController {
         tarjeta.setPrefWidth(320);
         tarjeta.setMaxWidth(320);
 
-        tarjeta.setMinHeight(300);
-        tarjeta.setPrefHeight(300);
-        tarjeta.setMaxHeight(300);
 
         tarjeta.setFillWidth(true);
 
